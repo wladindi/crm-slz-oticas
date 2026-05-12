@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OpticFlow CRM</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Navegacao principal">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">OF</div>
+          <div>
+            <strong>OpticFlow</strong>
+            <span>CRM Premium</span>
+          </div>
+        </div>
+
+        <nav class="nav-list">
+          <button class="nav-item active" data-view="dashboard" type="button">
+            <span class="nav-icon" data-icon="chart"></span>
+            Dashboard
+          </button>
+          <button class="nav-item" data-view="conversations" type="button">
+            <span class="nav-icon" data-icon="messages"></span>
+            Fluxo de conversas
+            <span class="nav-pill" id="conversationBadge">0</span>
+          </button>
+          <button class="nav-item" data-view="agent" type="button">
+            <span class="nav-icon" data-icon="bot"></span>
+            Agente virtual
+            <span class="nav-pill" id="agentBadge">0</span>
+          </button>
+          <button class="nav-item" data-view="leads" type="button">
+            <span class="nav-icon" data-icon="users"></span>
+            Leads
+            <span class="nav-pill" id="leadBadge">0</span>
+          </button>
+          <button class="nav-item" data-view="followups" type="button">
+            <span class="nav-icon" data-icon="clock"></span>
+            Follow-ups
+          </button>
+          <button class="nav-item" data-view="goals" type="button">
+            <span class="nav-icon" data-icon="target"></span>
+            Metas e CRM
+          </button>
+          <button class="nav-item" data-view="settings" type="button">
+            <span class="nav-icon" data-icon="settings"></span>
+            Configuracoes
+          </button>
+        </nav>
+
+        <div class="sidebar-foot">
+          <span>Numero base</span>
+          <strong>+55 11 4002-8922</strong>
+        </div>
+      </aside>
+
+      <main class="main-panel">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Operacao comercial</p>
+            <h1 id="pageTitle">Dashboard</h1>
+          </div>
+          <div class="topbar-actions">
+            <label class="field compact">
+              <span>Periodo</span>
+              <select id="periodFilter">
+                <option value="today">Hoje</option>
+                <option value="7">7 dias</option>
+                <option value="30" selected>30 dias</option>
+                <option value="month">Mes atual</option>
+              </select>
+            </label>
+            <label class="field compact">
+              <span>Canal</span>
+              <select id="channelFilter">
+                <option value="all">Todos</option>
+                <option value="whatsapp">WhatsApp</option>
+                <option value="instagram">Instagram</option>
+                <option value="site">Site</option>
+                <option value="indicacao">Indicacao</option>
+              </select>
+            </label>
+            <label class="search-box">
+              <span class="visually-hidden">Buscar</span>
+              <input id="searchInput" type="search" placeholder="Buscar lead, telefone ou email" />
+            </label>
+          </div>
+        </header>
+
+        <section id="dashboardView" class="view active-view">
+          <div class="metric-grid" id="metricGrid"></div>
+
+          <div class="analytics-grid">
+            <section class="panel wide">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Ultimos 30 dias</p>
+                  <h2>Volume de leads</h2>
+                </div>
+                <span class="delta positive">+14.8%</span>
+              </div>
+              <div class="line-chart" id="volumeChart" aria-label="Grafico de volume de leads"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Funil</p>
+                  <h2>Conversao CRM</h2>
+                </div>
+              </div>
+              <div class="funnel" id="funnelChart"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Engajamento</p>
+                  <h2>Fluxo automatizado</h2>
+                </div>
+              </div>
+              <div class="donut-row">
+                <div class="donut" id="donutChart"></div>
+                <div class="legend" id="donutLegend"></div>
+              </div>
+            </section>
+
+            <section class="panel wide">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Prioridade</p>
+                  <h2>Leads quentes e follow-ups</h2>
+                </div>
+                <button class="ghost-button" data-jump="leads" type="button">Ver todos</button>
+              </div>
+              <div class="hot-list" id="hotLeadList"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="conversationsView" class="view">
+          <div class="section-toolbar">
+            <div>
+              <p class="eyebrow">Conversas</p>
+              <h2>Fluxo de conversas</h2>
+            </div>
+            <label class="field compact">
+              <span>Status</span>
+              <select id="conversationStatusFilter">
+                <option value="all">Todos</option>
+                <option value="nova">Nova</option>
+                <option value="em_atendimento">Em atendimento</option>
+                <option value="aguardando_cliente">Aguardando cliente</option>
+                <option value="followup_pendente">Follow-up</option>
+                <option value="convertida">Convertida</option>
+              </select>
+            </label>
+          </div>
+          <div class="conversation-board" id="conversationBoard"></div>
+        </section>
+
+        <section id="agentView" class="view">
+          <div class="section-toolbar">
+            <div>
+              <p class="eyebrow">Pre-atendimento</p>
+              <h2>Agente virtual</h2>
+            </div>
+            <div class="row-actions">
+              <button class="ghost-button" id="saveAgentConfig" type="button">Salvar fluxo</button>
+              <button class="wa-button" id="simulateColdLead" type="button">Simular nutricao</button>
+            </div>
+          </div>
+
+          <div class="agent-metric-grid" id="agentMetricGrid"></div>
+
+          <div class="agent-workbench">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Configuracao</p>
+                  <h2>Comportamento do agente</h2>
+                </div>
+                <span class="badge green">Ativo</span>
+              </div>
+              <div class="form-grid">
+                <label class="field">
+                  <span>Nome do agente</span>
+                  <input id="agentNameInput" type="text" />
+                </label>
+                <label class="field">
+                  <span>Tom de conversa</span>
+                  <select id="agentToneInput">
+                    <option value="consultivo">Consultivo</option>
+                    <option value="premium">Premium</option>
+                    <option value="objetivo">Objetivo</option>
+                    <option value="acolhedor">Acolhedor</option>
+                  </select>
+                </label>
+                <label class="field">
+                  <span>Nutrir lead frio apos</span>
+                  <input id="coldTriggerInput" type="number" min="1" max="168" />
+                </label>
+                <label class="field">
+                  <span>Passar para humano com score</span>
+                  <input id="handoffScoreInput" type="number" min="1" max="100" />
+                </label>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Mensagens</p>
+                  <h2>Scripts personalizaveis</h2>
+                </div>
+              </div>
+              <div class="script-grid">
+                <label class="field">
+                  <span>Boas-vindas</span>
+                  <textarea id="welcomeScriptInput"></textarea>
+                </label>
+                <label class="field">
+                  <span>Qualificacao</span>
+                  <textarea id="qualificationScriptInput"></textarea>
+                </label>
+                <label class="field">
+                  <span>Nutricao de lead frio</span>
+                  <textarea id="coldScriptInput"></textarea>
+                </label>
+                <label class="field">
+                  <span>Passagem para atendente</span>
+                  <textarea id="handoffScriptInput"></textarea>
+                </label>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Fluxo</p>
+                  <h2>Sequencia para leads frios</h2>
+                </div>
+              </div>
+              <div class="nurture-list" id="nurtureList"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Preview</p>
+                  <h2>Conversa simulada</h2>
+                </div>
+              </div>
+              <div class="chat-preview" id="agentPreview"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="leadsView" class="view">
+          <div class="section-toolbar">
+            <div>
+              <p class="eyebrow">CRM</p>
+              <h2>Lista completa de leads</h2>
+            </div>
+            <div class="toolbar-filters">
+              <label class="field compact">
+                <span>Status CRM</span>
+                <select id="crmStatusFilter">
+                  <option value="all">Todos</option>
+                  <option value="novo">Novo</option>
+                  <option value="engajado">Engajado</option>
+                  <option value="quente">Quente</option>
+                  <option value="convertido">Convertido</option>
+                  <option value="perdido">Perdido</option>
+                </select>
+              </label>
+              <label class="field compact">
+                <span>Atendimento</span>
+                <select id="serviceStatusFilter">
+                  <option value="all">Todos</option>
+                  <option value="sem_resposta">Sem resposta</option>
+                  <option value="em_atendimento">Em atendimento</option>
+                  <option value="aguardando_cliente">Aguardando cliente</option>
+                  <option value="followup_pendente">Follow-up pendente</option>
+                  <option value="agendado">Agendado</option>
+                  <option value="concluido">Concluido</option>
+                </select>
+              </label>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Lead</th>
+                  <th>Entrada</th>
+                  <th>Canal</th>
+                  <th>Numero base</th>
+                  <th>Status</th>
+                  <th>Atendimento</th>
+                  <th>Interesse</th>
+                  <th>SLA</th>
+                  <th>Valor</th>
+                  <th>Acoes</th>
+                </tr>
+              </thead>
+              <tbody id="leadTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="followupsView" class="view">
+          <div class="section-toolbar">
+            <div>
+              <p class="eyebrow">Rotina comercial</p>
+              <h2>Follow-ups pendentes</h2>
+            </div>
+          </div>
+          <div class="followup-grid" id="followupGrid"></div>
+        </section>
+
+        <section id="goalsView" class="view">
+          <div class="section-toolbar">
+            <div>
+              <p class="eyebrow">Performance</p>
+              <h2>Metas e CRM</h2>
+            </div>
+          </div>
+          <div class="goal-grid" id="goalGrid"></div>
+        </section>
+
+        <section id="settingsView" class="view">
+          <div class="section-toolbar">
+            <div>
+              <p class="eyebrow">Administracao</p>
+              <h2>Configuracoes</h2>
+            </div>
+          </div>
+          <div class="settings-grid">
+            <section class="panel">
+              <h2>WhatsApp base</h2>
+              <div class="settings-row">
+                <span>Unidade Jardins</span>
+                <strong>+55 11 4002-8922</strong>
+              </div>
+              <div class="settings-row">
+                <span>Unidade Barra</span>
+                <strong>+55 21 3003-4455</strong>
+              </div>
+            </section>
+            <section class="panel">
+              <h2>Permissoes</h2>
+              <div class="settings-row">
+                <span>Telefone completo</span>
+                <strong>ADMIN, GESTOR, ATENDENTE</strong>
+              </div>
+              <div class="settings-row">
+                <span>Logs de acesso</span>
+                <strong>Ativo</strong>
+              </div>
+            </section>
+          </div>
+        </section>
+      </main>
+
+      <aside class="detail-drawer" id="detailDrawer" aria-label="Detalhes do lead">
+        <button class="drawer-close" id="drawerClose" type="button" aria-label="Fechar">x</button>
+        <div id="drawerContent"></div>
+      </aside>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
