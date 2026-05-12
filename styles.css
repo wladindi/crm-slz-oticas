@@ -865,15 +865,83 @@ tr.priority-row {
 }
 
 @media (max-width: 760px) {
+  body {
+    padding-bottom: 86px;
+  }
+
   .main-panel,
   .sidebar {
     padding: 18px;
+  }
+
+  .app-shell {
+    display: block;
+  }
+
+  .sidebar {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    top: auto;
+    z-index: 20;
+    height: auto;
+    padding: 7px 8px calc(7px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--border);
+    border-right: 0;
+    box-shadow: 0 -14px 36px rgba(15, 23, 42, 0.12);
+  }
+
+  .brand,
+  .sidebar-foot {
+    display: none;
+  }
+
+  .nav-list {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 4px;
+    padding: 0;
+  }
+
+  .nav-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    min-height: 56px;
+    gap: 3px;
+    padding: 7px 3px;
+    font-size: 0.62rem;
+    line-height: 1.1;
+    text-align: center;
+  }
+
+  .nav-icon,
+  .nav-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .nav-pill {
+    position: absolute;
+    top: 3px;
+    right: 6px;
+    min-width: 18px;
+    padding: 1px 5px;
+    font-size: 0.62rem;
   }
 
   .topbar,
   .section-toolbar {
     align-items: stretch;
     flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .topbar h1 {
+    font-size: 2rem;
   }
 
   .topbar-actions,
@@ -889,18 +957,167 @@ tr.priority-row {
 
   .metric-grid,
   .agent-metric-grid,
-  .form-grid,
-  .nav-list {
+  .form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .metric-card {
+    padding: 14px;
+  }
+
+  .metric-card strong {
+    font-size: 1.55rem;
+  }
+
+  .metric-card small {
+    display: block;
+    line-height: 1.35;
+  }
+
+  .conversation-card,
+  .followup-card,
+  .hot-item,
+  .nurture-step {
     grid-template-columns: 1fr;
   }
 
   .conversation-card,
   .followup-card,
-  .hot-item {
-    grid-template-columns: 1fr;
+  .hot-item,
+  .nurture-step,
+  .panel {
+    padding: 14px;
+  }
+
+  .panel-head,
+  .settings-row,
+  .drawer-row {
+    align-items: start;
+    flex-direction: column;
+    gap: 8px;
   }
 
   .donut-row {
     grid-template-columns: 1fr;
+  }
+
+  .line-chart {
+    height: 180px;
+    gap: 4px;
+  }
+
+  .table-wrap {
+    overflow: visible;
+    border: 0;
+    background: transparent;
+  }
+
+  table,
+  tbody,
+  tr,
+  td {
+    display: block;
+    width: 100%;
+  }
+
+  table {
+    min-width: 0;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tr {
+    margin-bottom: 12px;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: 0 8px 28px rgba(15, 23, 42, 0.04);
+  }
+
+  tr.priority-row,
+  tr.priority-row td:first-child {
+    background: #fffcf4;
+  }
+
+  td,
+  td:first-child {
+    position: static;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    background: transparent;
+    text-align: right;
+  }
+
+  td::before {
+    content: attr(data-label);
+    min-width: 112px;
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-align: left;
+    text-transform: uppercase;
+  }
+
+  td:first-child {
+    display: block;
+    text-align: left;
+  }
+
+  td:first-child::before {
+    display: none;
+  }
+
+  td:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .row-actions {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .row-actions .wa-button,
+  .row-actions .secondary-button {
+    flex: 1 1 112px;
+  }
+
+  .detail-drawer {
+    width: 100vw;
+    padding: 22px;
+  }
+}
+
+@media (max-width: 460px) {
+  .main-panel {
+    padding: 14px;
+  }
+
+  .metric-grid,
+  .agent-metric-grid,
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-item {
+    font-size: 0;
+  }
+
+  .nav-icon,
+  .nav-icon svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .nav-item::after {
+    content: attr(data-mobile-label);
+    font-size: 0.58rem;
   }
 }

@@ -700,22 +700,22 @@ function leadRowTemplate(lead) {
   const priority = lead.serviceStatus === "sem_resposta" || lead.serviceStatus === "followup_pendente";
   return `
     <tr class="${priority ? "priority-row" : ""}">
-      <td>
+      <td data-label="Lead">
         <div class="lead-name">
           <strong>${lead.name}</strong>
           <span class="mono">${lead.phone}</span>
           <span>${lead.email}</span>
         </div>
       </td>
-      <td>${dateFormatter.format(new Date(lead.createdAt))}</td>
-      <td><span class="badge blue">${channelLabels[lead.channel]}</span></td>
-      <td class="mono">${lead.baseNumber}</td>
-      <td><span class="badge ${badgeTone(lead.crmStatus)}">${statusLabels[lead.crmStatus]}</span></td>
-      <td><span class="badge ${badgeTone(lead.serviceStatus)}">${statusLabels[lead.serviceStatus]}</span></td>
-      <td>${lead.interest}</td>
-      <td>${slaBadge(lead)}</td>
-      <td class="mono">${moneyFormatter.format(lead.estimatedValue)}</td>
-      <td>
+      <td data-label="Entrada">${dateFormatter.format(new Date(lead.createdAt))}</td>
+      <td data-label="Canal"><span class="badge blue">${channelLabels[lead.channel]}</span></td>
+      <td data-label="Numero base" class="mono">${lead.baseNumber}</td>
+      <td data-label="Status"><span class="badge ${badgeTone(lead.crmStatus)}">${statusLabels[lead.crmStatus]}</span></td>
+      <td data-label="Atendimento"><span class="badge ${badgeTone(lead.serviceStatus)}">${statusLabels[lead.serviceStatus]}</span></td>
+      <td data-label="Interesse">${lead.interest}</td>
+      <td data-label="SLA">${slaBadge(lead)}</td>
+      <td data-label="Valor" class="mono">${moneyFormatter.format(lead.estimatedValue)}</td>
+      <td data-label="Acoes">
         <div class="row-actions">
           <button class="secondary-button" data-open-lead="${lead.id}" type="button">Ver</button>
           <a class="wa-button" href="${whatsappUrl(lead)}" target="_blank" rel="noreferrer">WhatsApp</a>
